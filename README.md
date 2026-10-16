@@ -41,10 +41,10 @@ Modern hospital networks require real-time data transparency to balance clinical
 | Key Performance Metric | Benchmark Value | Operational Implication |
 | :--- | :--- | :--- |
 | **Validated Admissions** | **54,966 records** | De-duplicated from 55,500 raw logs (-534 duplicates). |
-| **Mean Treatment Billing** | **$25,594.54** | Stable fee-for-service chargemaster across 61 months. |
+| **Mean Treatment Billing** | **₹25,594.54** | Stable fee-for-service chargemaster across 61 months. |
 | **Average Length of Stay (LOS)** | **15.50 days** | Derived metric via admission-to-discharge delta. |
 | **Median Patient Age** | **52.00 years** | Broad demographic range (13 to 89 years). |
-| **High-Cost Outlier Accounts** | **5,497 cases** | Top 10% accounts exceeding **$45,160.26** billing. |
+| **High-Cost Outlier Accounts** | **5,497 cases** | Top 10% accounts exceeding **₹45,160.26** billing. |
 | **High-Risk Clinical Reviews** | **6,038 cases** | Emergency admissions flagged with **Abnormal** lab tests. |
 | **Insurance Diversification** | **~20% per payer** | Symmetrically balanced risk across 5 major insurers. |
 
@@ -82,7 +82,7 @@ The dataset resides in [`Dataset/healthcare_dataset.csv`](Dataset/healthcare_dat
 | `Doctor` | String | Attending physician name | `Matthew Smith`, `Kevin Wells` |
 | `Hospital` | String | Admitting hospital facility or clinic | `Sons and Miller`, `Cook PLC` |
 | `Insurance Provider`| String | Commercial or public healthcare payer | `Blue Cross`, `Medicare`, `Cigna` |
-| `Billing Amount` | Float | Total invoiced medical bill in USD | `$18,856.28`, `$33,643.33` |
+| `Billing Amount` | Float | Total invoiced medical bill in INR (₹) | `₹18,856.28`, `₹33,643.33` |
 | `Room Number` | Integer | Allocated inpatient room number (101–500) | `328`, `265`, `450` |
 | `Admission Type` | String | Care classification | `Elective`, `Urgent`, `Emergency` |
 | `Discharge Date` | Datetime | Date the patient left the facility | `2024-02-02`, `2019-08-26` |
@@ -110,7 +110,7 @@ All transformations are reproducibly implemented in [`healthcare.ipynb`](healthc
    ```python
    df.loc[df['Billing Amount'] < 0, 'Billing Amount'] = df['Billing Amount'].mean()
    ```
-   - 106 erroneous negative billing entries (down to -$2,008.49) replaced with the baseline population mean.
+   - 106 erroneous negative billing entries (down to -₹2,008.49) replaced with the baseline population mean.
 4. **Temporal Transformation & Feature Engineering:**
    ```python
    df['Date of Admission'] = pd.to_datetime(df['Date of Admission'])
@@ -153,8 +153,8 @@ All transformations are reproducibly implemented in [`healthcare.ipynb`](healthc
 ### Question 3: Long-term Treatment Cost Stability
 > **"How has average treatment cost changed over time?"**
 
-- Across 61 continuous months (May 2019 to May 2024), monthly mean billing remained tightly range-bound between **$24,800** and **$26,400**.
-- Overall population billing average: **$25,594.54**.
+- Across 61 continuous months (May 2019 to May 2024), monthly mean billing remained tightly range-bound between **₹24,800** and **₹26,400**.
+- Overall population billing average: **₹25,594.54**.
 - *Insight:* Demonstrates strict fee-for-service chargemaster standardization with absence of sudden inflationary swings or procedural pricing shocks.
 
 ---
@@ -163,8 +163,8 @@ All transformations are reproducibly implemented in [`healthcare.ipynb`](healthc
 > **"Is there a relationship between patient age and treatment cost?"**
 
 - **Correlation Coefficient ($r$):** $\approx 0.00$
-- **Senior Citizen Average Bill (>60 yrs):** **$25,601.78**
-- **Under-60 Population Average Bill:** **$25,590.04**
+- **Senior Citizen Average Bill (>60 yrs):** **₹25,601.78**
+- **Under-60 Population Average Bill:** **₹25,590.04**
 - *Insight:* Chronological age does not drive healthcare charges; procedural intervention, room allocation, and duration of stay dictate billing.
 
 ---
@@ -193,9 +193,9 @@ All transformations are reproducibly implemented in [`healthcare.ipynb`](healthc
 
 ### Scenario II: High-Cost Patient Cohort (Top 10%)
 - **Objective:** Identify outlier billing accounts for financial audits and pre-authorization reviews.
-- **90th Percentile Cutoff:** **$45,160.26**
-- **High-Cost Cohort:** **5,497 accounts** (peak billing: $52,764.28).
-- **Recommendation:** Mandatory pre-bill audits for accounts over $45,000 to minimize insurer denials.
+- **90th Percentile Cutoff:** **₹45,160.26**
+- **High-Cost Cohort:** **5,497 accounts** (peak billing: ₹52,764.28).
+- **Recommendation:** Mandatory pre-bill audits for accounts over ₹45,000 to minimize insurer denials.
 
 ### Scenario III: Urgent Abnormal Diagnostic Flagging
 - **Objective:** Triage high-acuity emergency cases with abnormal diagnostic test results.
@@ -278,7 +278,7 @@ jupyter notebook healthcare.ipynb
 
 1. **Multidisciplinary Chronic Care Pathways:** Deploy shared care protocols across Orthopedics, Endocrinology, and Cardiology to streamline treatment for the six equally prevalent conditions.
 2. **Automated Abnormal Lab Emergency Protocols:** Institute priority clinical alerts for the 6,038 emergency patients presenting abnormal test results.
-3. **Targeted Utilization Management for High-Cost Claims:** Focus financial review on the 5,497 cases exceeding $45,160.26 to ensure coding compliance and protect hospital operating margins.
+3. **Targeted Utilization Management for High-Cost Claims:** Focus financial review on the 5,497 cases exceeding ₹45,160.26 to ensure coding compliance and protect hospital operating margins.
 4. **Stable Emergency Staffing Model:** Rely on continuous core nursing and doctor staffing models, as emergency demand remains uniform month over month.
 
 ---

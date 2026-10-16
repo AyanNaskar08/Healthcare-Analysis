@@ -585,7 +585,7 @@ function barChart(container, data, opts){
   container.innerHTML = svg;
   container.querySelectorAll('.bar-shape').forEach((el,i)=>{
     const d=data[i];
-    el.addEventListener('mousemove', e=>showTT(e, `<b>${d.label}</b><br>${opts.fmt?opts.fmt(d):d.value.toLocaleString()}`));
+    el.addEventListener('mousemove', e=>showTT(e, `<b>${d.label}</b><br>${opts.fmt?opts.fmt(d):d.value.toLocaleString('en-IN')}`));
     el.addEventListener('mouseleave', hideTT);
   });
 }
@@ -626,7 +626,7 @@ function lineChartWithGap(container, data, splitIndex){
   container.innerHTML = svg;
   container.querySelectorAll('.pt-shape').forEach((el,i)=>{
     const d = data[i];
-    el.addEventListener('mousemove', e=>showTT(e, `<b>${d.label}</b><br>₹${d.value.toLocaleString(undefined,{maximumFractionDigits:0})} avg billing`));
+    el.addEventListener('mousemove', e=>showTT(e, `<b>${d.label}</b><br>₹${d.value.toLocaleString('en-IN',{maximumFractionDigits:0})} avg billing`));
     el.addEventListener('mouseleave', hideTT);
   });
 }
@@ -656,7 +656,7 @@ function donutChart(container, data, opts){
   container.innerHTML = svg;
   container.querySelectorAll('.arc-shape').forEach((el,i)=>{
     const d=data[i];
-    el.addEventListener('mousemove', e=>showTT(e, `<b>${d.label}</b><br>${d.value.toLocaleString()} (${d.pct?d.pct+'%':((d.value/total)*100).toFixed(1)+'%'})`));
+    el.addEventListener('mousemove', e=>showTT(e, `<b>${d.label}</b><br>${d.value.toLocaleString('en-IN')} (${d.pct?d.pct+'%':((d.value/total)*100).toFixed(1)+'%'})`));
     el.addEventListener('mouseleave', hideTT);
   });
 }
@@ -682,7 +682,7 @@ function quartileChart(container, q){
 /* ============ KPI CARDS ============ */
 const kpis = [
   {icon:'users', target:'patient-mix', color:'#E2F4F2', iconColor:'#0E8F88', label:'Total Patients (cleaned)', value:54966, prefix:'', suffix:'', badge:{type:'flat', text:'534 dupes removed'}},
-  {icon:'rupee', target:'billing', color:'#DEEBEA', iconColor:'#0A2E3D', label:'Est. Total Billing Volume', value:1.41, decimals:2, prefix:'₹', suffix:'B', badge:{type:'flat', text:'avg × patients'}},
+  {icon:'rupee', target:'billing', color:'#DEEBEA', iconColor:'#0A2E3D', label:'Est. Total Billing Volume', value:140.68, decimals:2, prefix:'₹', suffix:' Cr', badge:{type:'flat', text:'avg × patients'}},
   {icon:'trend', target:'billing', color:'#FBF1DF', iconColor:'#DB9A2E', label:'Average Billing / Patient', value:25595, prefix:'₹', suffix:'', badge:{type:'down', text:'-0.99% vs opening months'}},
   {icon:'cake', target:'patient-mix', color:'#E2F4F2', iconColor:'#3FB6AC', label:'Average Patient Age', value:51.5, decimals:1, suffix:' yrs', badge:{type:'flat', text:'range 13–89'}},
   {icon:'shield', target:'insurance', color:'#DEEBEA', iconColor:'#0E8F88', label:'Insurance Providers', value:5, suffix:'', badge:{type:'flat', text:'19.7–20.3% each'}},
@@ -708,7 +708,7 @@ kpis.forEach((k,i)=>{
     const p = Math.min(1, (now-start)/dur);
     const eased = 1 - Math.pow(1-p, 3);
     const cur = k.value*eased;
-    const shown = k.decimals ? cur.toFixed(k.decimals) : Math.round(cur).toLocaleString();
+    const shown = k.decimals ? cur.toFixed(k.decimals) : Math.round(cur).toLocaleString('en-IN');
     el.textContent = `${k.prefix||''}${shown}${k.suffix||''}`;
     if(p<1) requestAnimationFrame(frame);
   }
@@ -777,7 +777,7 @@ const insights = [
    finding:'The network serves a wide adult age range (13–89, average 51.5). The middle 50% of patients fall between 35 and 68, with a median age of 52.',
    implication:'Business implication: services should be built for a broad adult-to-senior population rather than one dominant age band.'},
   {q:'Question 3', title:'How has average treatment cost changed over time?', chart:'billingQ',
-   finding:'Comparing opening months (May–Sep 2019) to closing months (Jan–May 2024), average monthly billing stayed within a narrow ₹24.9K–₹26.3K range.',
+   finding:'Comparing opening months (May–Sep 2019) to closing months (Jan–May 2024), average monthly billing stayed within a narrow ₹24,900–₹26,300 range.',
    implication:'Business implication: billing costs have not meaningfully inflated across the tracked period — useful evidence for budget forecasting.'},
   {q:'Question 4', title:'Is there a relationship between patient age and treatment cost?', chart:'ageCost',
    finding:'Senior patients (60+) average ₹25,530 in billing, essentially matching the network-wide average of ₹25,595 — a difference of just ₹65, or 0.25%.',
@@ -804,7 +804,7 @@ insights.forEach(ins=>{
 barChart(document.getElementById('chart-condition'), conditionData, {fmt:d=>`${d.value.toLocaleString()} patients (${d.pct}%)`, rotateLabels:true});
 quartileChart(document.getElementById('chart-age'), ageQuartiles);
 lineChartWithGap(document.getElementById('chart-billingQ'), monthlyBilling, 4);
-barChart(document.getElementById('chart-ageCost'), seniorVsOverall, {fmt:d=>`₹${d.value.toLocaleString(undefined,{maximumFractionDigits:0})}`, color:'#DB9A2E'});
+barChart(document.getElementById('chart-ageCost'), seniorVsOverall, {fmt:d=>`₹${d.value.toLocaleString('en-IN',{maximumFractionDigits:0})}`, color:'#DB9A2E'});
 (function(){
   const wrap=document.getElementById('chart-insurance');
   donutChart(wrap, insuranceData, {centerTop:'5', centerBottom:'providers'});
